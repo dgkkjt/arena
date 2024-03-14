@@ -5,6 +5,7 @@ import time
 import asyncio
 from collections import defaultdict
 from PIL import Image, ImageDraw, ImageFont, ImageColor
+import html
 
 import hoshino
 from hoshino import Service, R, aiorequests
@@ -493,7 +494,7 @@ async def _arena_query(bot, ev: CQEvent, region: int):
     ret = re.match(r"\[CQ:image,file=(.*),url=(.*)\]", str(ev.message))
     if ret:
         # await bot.send(ev, "recognizing")
-        image = Image.open(BytesIO(await get_pic(ret.group(2))))
+        image = Image.open(BytesIO(await get_pic(html.unescape(ret.group(2)))))
         boxDict, s = await getBox(image)
 
         if boxDict == []:
